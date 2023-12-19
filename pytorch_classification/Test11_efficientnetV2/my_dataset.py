@@ -1,6 +1,8 @@
 from PIL import Image
 import torch
 from torch.utils.data import Dataset
+from PIL import Image
+import os
 
 
 class MyDataSet(Dataset):
@@ -16,11 +18,14 @@ class MyDataSet(Dataset):
 
     def __getitem__(self, item):
         img = Image.open(self.images_path[item])
+        # Check if the image is in grayscale mode
+        if img.mode != 'RGB':
+            # Convert the grayscale image to RGB
+            img = img.convert('RGB')
         # RGB为彩色图片，L为灰度图片
         if img.mode != 'RGB':
             raise ValueError("image: {} isn't RGB mode.".format(self.images_path[item]))
         label = self.images_class[item]
-
         if self.transform is not None:
             img = self.transform(img)
 

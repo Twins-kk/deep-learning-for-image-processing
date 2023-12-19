@@ -12,6 +12,7 @@ from torch.nn import functional as F
 
 def _make_divisible(ch, divisor=8, min_ch=None):
     """
+    将传入的cha nnel的个数调整为8的整数倍，这样可以对代码运行更加友好
     This function is taken from the original tf repo.
     It ensures that all layers have a channel number that is divisible by 8
     It can be seen here:
@@ -172,7 +173,7 @@ class InvertedResidual(nn.Module):
                                                         kernel_size=1,
                                                         norm_layer=norm_layer,
                                                         activation_layer=nn.Identity)})
-
+        # nn.Identity表示不做任何事
         self.block = nn.Sequential(layers)
         self.out_channels = cnf.out_c
         self.is_strided = cnf.stride > 1
